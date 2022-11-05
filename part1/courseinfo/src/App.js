@@ -36,15 +36,9 @@ const Header = ({course}) => {
 const Content = ({content}) => {
   return (
     <div>
-      <p>
-        {content[0].part} {content[0].exercises}
-      </p>
-      <p>
-        {content[1].part} {content[1].exercises}
-      </p>
-      <p>
-        {content[2].part} {content[2].exercises}
-      </p>
+      <Part content={content[0]} />
+      <Part content={content[1]} />
+      <Part content={content[2]} />
     </div>
   )
 }
@@ -54,8 +48,14 @@ const Total = ({content}) => {
 
   return (
     <div>
-      <p>Number of exercises {total}</p>
+      Number of exercises {total}
     </div>
+  )
+}
+
+const Part = ({content}) => {
+  return (
+    <div>{content.part} {content.exercises}</div>
   )
 }
 
