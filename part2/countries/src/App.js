@@ -1,11 +1,12 @@
-import { useEffect, useState } from "react"
+import React, { useState, useEffect } from 'react'
 import axios from 'axios'
 import Country from "./components/Country"
+import Filter from "./components/Filter"
+import CountryList from './components/CountryList'
 
 const App = () => { 
   const [countries, setCountries] = useState([])
   const [filter, setFilter] = useState('')
-
  
 useEffect(() => {
   axios
@@ -13,29 +14,10 @@ useEffect(() => {
     .then(response => setCountries(response.data))
 },[])
 
-  const list = countries.filter(countries => countries.name.common.toLowerCase().includes(filter.toLowerCase()))
-
   return (
     <div>
-      find countries 
-      <input 
-        value={filter}
-        onChange={(event) => setFilter(event.target.value) } 
-      />
-
-    {
-      filter === '' ? [] :
-        list.length > 10 ?
-        <div>Too many matches, specify another filter</div> :
-          list.length > 1 ?
-          list.map(country => <div key={country.cca2}>{country.name.common}</div>) :
-          <Country country={list[0]} />
-    }
-
-
-      
-
-
+      <Filter filter={filter} setFilter={setFilter} />
+      <CountryList countries={countries} filter={filter} setFilter={setFilter} />
     </div>
   )
 }
