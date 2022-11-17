@@ -1,36 +1,48 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Persons from "./components/Persons";
 import Filter from "./components/Filter";
 import PersonForm from "./components/PersonForm";
+import PersonsService from "./services/Persons"
 
 const App = () => {
   const [newFilter, setNewFilter] = useState('')
-  const [persons, setPersons] = useState([
-    { name: 'Arto Hellas', number: '040-123456', id: 1 },
-    { name: 'Ada Lovelace', number: '39-44-5323523', id: 2 },
-    { name: 'Dan Abramov', number: '12-43-234345', id: 3 },
-    { name: 'Mary Poppendieck', number: '39-23-6423122', id: 4 }
-  ])
-
+  const [persons, setPersons] = useState([])
   const [newName, setNewName] = useState('')
   const [newNumber, setNewNumber] =useState('')
 
+  useEffect(() => {
+    PersonsService.getAll()
+                  .then(initialPersons => setPersons(initialPersons))
+  },[])
+
   const onSubmitHandle = (event) => {
     event.preventDefault()
-    const person = {
+    const newPerson = {
       name: newName,
       number: newNumber,
     }
     const found = persons.find(p => p.name === newName)
-
-    found === undefined ? 
-      setPersons(persons.concat(person)):
-      window.alert(`${newName} is already added to phonebook`)
+    
+    if(found === undefined){
+      PersonsService
+        .create(newPerson)
+        .then(returnedPerson => setPersons(persons.concat(returnedPerson)))
+      } 
+      else if(window.confirm(`${newName} is already added to phonebook, replace old number with new one?`)){
+        PersonsService.update(found.id, newPerson).then(setPersons(persons.map(person => person.id === found.id ? newPerson : person)))
+      }
 
       setNewName('')
       setNewNumber('')
   }
 
+  const deleteHandler = (person) => {
+    const {id, name} = person
+    if(window.confirm(`Delete ${name}?`)){
+      PersonsService.remove(id).then(setPersons(persons.filter(person => person.id !== id)))
+    }
+    
+  }
   const list = newFilter === '' ? 
   persons :
   persons.filter(p => p.name.toLowerCase().includes(newFilter.toLowerCase()))
@@ -49,7 +61,7 @@ const App = () => {
         setNewNumber={setNewNumber} 
       />
       <h3>Numbers</h3>
-        <Persons persons={list}/>
+        <Persons persons={list} deleteHandler={deleteHandler}/>
     </div>
   )
 }
