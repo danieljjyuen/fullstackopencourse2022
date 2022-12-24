@@ -30,9 +30,17 @@ const App = () => {
     if(found === undefined){
       PersonsService
         .create(newPerson)
-        .then(returnedPerson => setPersons(persons.concat(returnedPerson)))
-        setMessage(`Added ${newName}`)
-        setStyle('successful')
+        .then(returnedPerson => {
+          setPersons(persons.concat(returnedPerson))
+          setMessage(`Added ${newName}`)
+          setStyle('successful')
+        })
+        .catch(error => {
+          setMessage(`${error.response.data.error}`)
+          setStyle('error')
+          console.log(error.response.data)
+        })
+        
       } 
       else if(window.confirm(`${newName} is already added to phonebook, replace old number with new one?`)){
         PersonsService.update(found.id, newPerson).then( success =>{
@@ -42,7 +50,7 @@ const App = () => {
         ).catch(error => {
           setMessage(`Information on ${newName} has already been removed from the server`)
           setStyle('error')
-
+          console.log(error.response.data.error)
           setTimeout(() => {
             setMessage(null)
             setStyle(null)
