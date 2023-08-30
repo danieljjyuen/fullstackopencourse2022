@@ -18,7 +18,7 @@ blogsRouter.post('/', async (request, response, next) => {
     if(!user){
       response.status(404).json({error:'user can\'t be found'})
     }
-      console.log('user ,',user, ' user id ,',userId)
+     // console.log('user ,',user, ' user id ,',userId)
         const blog = new Blog({
           title: request.body.title,
           author:request.body.author,
@@ -39,9 +39,9 @@ blogsRouter.post('/', async (request, response, next) => {
   
 blogsRouter.delete('/:id', async (request, response, next) => {
   const blog = await Blog.findById(request.params.id)
-  console.log('blog is ', blog)
-  console.log('blog.user.tostring  ', blog.user.toString() )
-  console.log('request.user.tostring   ,', request.user.toString())
+  // console.log('blog is ', blog)
+  // console.log('blog.user.tostring  ', blog.user.toString() )
+  // console.log('request.user.tostring   ,', request.user.toString())
   if(blog.user.toString() !== request.user.toString()){
     response.status(401).json({error: 'incorrect token'})
   }
