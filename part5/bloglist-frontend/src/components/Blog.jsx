@@ -41,7 +41,7 @@ const deleteHandle = async (deleteBlog) => {
 }
 
   return (
-  <div style={blogStyle}>
+  <div style={blogStyle} className='blog'>
     {blog.title} {blog.author} <button onClick={setVisibility}>{label}</button>
     <div style = {displayStyle}>
       {blog.url}
