@@ -36,6 +36,7 @@ const CreateNew = ({setBlogs, blogs, setMessage}) => {
                         value={title}
                         onChange={(event)=>setTitle(event.target.value)}
                         placeholder='title'
+                        id='title'
                     />
                 </div>
                 <div>
@@ -46,6 +47,7 @@ const CreateNew = ({setBlogs, blogs, setMessage}) => {
                         value={author}
                         onChange={(event) => setAuthor(event.target.value)}
                         placeholder='author'
+                        id='author'
                     />
                 </div>
                 <div>
@@ -56,9 +58,10 @@ const CreateNew = ({setBlogs, blogs, setMessage}) => {
                         value={url}
                         onChange={(event)=> setUrl(event.target.value)}
                         placeholder='url'
+                        id='url'
                     />
                 </div>
-                <button type='submit'>create</button>
+                <button type='submit' id='createSubmit'>create</button>
             </form>
         </div>
     )

@@ -42,15 +42,15 @@ const deleteHandle = async (deleteBlog) => {
 
   return (
   <div style={blogStyle} className='blog'>
-    {blog.title} {blog.author} <button onClick={setVisibility}>{label}</button>
+    {blog.title} {blog.author} <button id='toggleView' onClick={setVisibility}>{label}</button>
     <div style = {displayStyle}>
       {blog.url}
       <br/>
-      likes {blog.likes} <button onClick={updateLike}>like</button>
+      likes {blog.likes} <button id='like' onClick={updateLike}>like</button>
       <br/>
       {blog.user.name}
-      <div style={deleteVisible}>
-        <button onClick={()=>deleteHandle(blog)}>remove</button>
+      <div className='showRemove' style={deleteVisible}>
+        <button id='remove' onClick={()=>deleteHandle(blog)}>remove</button>
       </div>
     </div>
   </div> 

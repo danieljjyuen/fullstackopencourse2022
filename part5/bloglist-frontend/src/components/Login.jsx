@@ -46,6 +46,7 @@ const Login =({setUser}) => {
                         value={username}
                         type='text'
                         onChange={(event) => setUsername(event.target.value)}
+                        id='login'
                     />
                 </div>
                 <div>
@@ -55,6 +56,7 @@ const Login =({setUser}) => {
                         type='password'
                         value={password}
                         onChange={(event) => setPassword(event.target.value)}
+                        id='password'
                     />
                 </div>
                 <button type='submit'>login</button>
