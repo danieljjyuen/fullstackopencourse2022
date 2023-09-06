@@ -118,6 +118,7 @@ describe('Blog app', function() {
           cy.get('.blog').eq(1).should('contain', 'blog title 2 blog author 2')
             .find('#like')
             .click()
+            
           cy.get('.blog').eq(0).should('contain', 'blog title 2 blog author 2')
 
         })
