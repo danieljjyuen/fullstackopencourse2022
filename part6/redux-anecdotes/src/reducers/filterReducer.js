@@ -1,19 +1,14 @@
-export const change = (input) => {
-    console.log(input)
-    return {
-        type:'CHANGE',
-        payload: input.toLowerCase()
+import {createSlice} from '@reduxjs/toolkit' 
+
+const filterSlice = createSlice({
+    name: 'filter',
+    initialState:'',
+    reducers: {
+        filterUpdate(state, action){
+            return action.payload.toLowerCase()
+        }
     }
+})
 
-}
-
-const reducer = (state = '', action) => {
-    if(action.type==='CHANGE'){
-        return action.payload
-    }else{
-        return state
-    }
-    
-}
-
-export default reducer
+export const {filterUpdate} = filterSlice.actions
+export default filterSlice.reducer
