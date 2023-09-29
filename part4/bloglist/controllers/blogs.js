@@ -24,7 +24,8 @@ blogsRouter.post('/', async (request, response, next) => {
           author:request.body.author,
           url:request.body.url,
           likes:request.body.likes,
-          user:userId
+          user:userId,
+          comments:[]
         })
     const savedBlog = await blog.save()
     user.blogs = user.blogs.concat(savedBlog._id)
@@ -53,6 +54,17 @@ blogsRouter.delete('/:id', async (request, response, next) => {
   }
 })
 
+blogsRouter.post('/:id/comments', async (request, response, next) => {
+  const {comment} = request.body
+
+  const blog = await Blog.findById(request.params.id)
+  blog.comments = blog.comments || []
+  blog.comments = blog.comments.concat(comment)
+  await blog.save()
+  response.status(201).json(blog)
+
+})
+
 blogsRouter.put('/:id', async (request, response, next) => {
   const body = request.body
 
@@ -61,7 +73,8 @@ blogsRouter.put('/:id', async (request, response, next) => {
     author: body.author,
     url:body.url,
     likes:body.likes,
-    user:body.userId
+    user:body.userId,
+    comments:body.comments
   }
 
   try{
