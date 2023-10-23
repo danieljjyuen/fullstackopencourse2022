@@ -235,6 +235,7 @@ const resolvers = {
       return {value: jwt.sign(userForToken, process.env.JWT_SECRET)}
     },
     addBook: async (root, args, context) => {
+
       const authorExist = await Author.findOne({name: args.author})
       const currentUser = context.currentUser
 
@@ -260,7 +261,9 @@ const resolvers = {
           })
         }
       }
-      const book = new Book({...args, author:authorExist})
+      const authorfound = await Author.findOne({name: args.author})
+      
+      const book = new Book({...args, author:authorfound})
 
       try {
         await book.save()

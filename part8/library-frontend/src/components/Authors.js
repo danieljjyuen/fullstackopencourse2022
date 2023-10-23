@@ -1,35 +1,23 @@
 import { useQuery, useMutation} from '@apollo/client'
-import { ALL_AUTHORS,EDIT_AUTHOR } from '../queries'
+import { EDIT_AUTHOR, ALL_AUTHORS } from '../queries'
 import { useState } from 'react'
 
 
-const Authors = () => {
-  const [name, setName] = useState('')
+const Authors = ({authors, setError}) => {
+  const [name, setName] = useState(authors.length > 0 ? authors[0].name : '')
+  //const [name, setName] = useState('')
   const [born, setBorn] = useState('')
   
   const [ editAuthor ] = useMutation(EDIT_AUTHOR,{
     refetchQueries:[{query:ALL_AUTHORS}],
     onError:(error) => {
       const message = error.graphQLErrors.map(e => e.message).join('\n')
-      console.log(message)
+      setError(message)
     }
   })
 
-  const result = useQuery(ALL_AUTHORS)
-  if(result.loading || !result){
-    return(<div>loading...</div>)
-  }
-  const authors= result.data.allAuthors
+
   const defaultName = authors.length > 0 ? authors[0].name : ''
-
-
-  
-  
-
-  
-
-
-
  
 const handleUpdate = (event) => {
   event.preventDefault()
