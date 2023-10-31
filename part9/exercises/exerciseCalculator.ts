@@ -56,6 +56,8 @@ const calculateExercises = (hours: number[], target: number): result => {
         case rating === 2 :
             ratingDescription = 'not too bad but could be better'
             break
+        default:
+            ratingDescription=''
     }
 
     return {
@@ -69,6 +71,46 @@ const calculateExercises = (hours: number[], target: number): result => {
     }
 }
 
-console.log(calculateExercises([3,0,2,4.5,0,3,1],2))
+interface exerciseValues {
+    target: number
+    schedule: number[]
+}
 
-console.log(process.argv[2])
+
+
+const parseArguments = (args: string[]):exerciseValues => {
+    if(process.argv.length <4) throw new Error('too few arguments')
+    const length = process.argv.length
+    let target: number
+    let hours : number[] = []
+
+    if(!isNaN(Number(process.argv[2]))){
+        target = Number(process.argv[2])
+    }else{
+        throw new Error('value is not a number')
+    }
+
+    for(let i = 3; i<length; i++){
+        if(!isNaN(Number(process.argv[i]))){
+            hours.push(Number(process.argv[i]))
+        }else{
+            throw new Error('value is not a number')
+        }
+    }
+    return {
+        target, 
+        schedule :hours
+    }
+
+}
+
+try{
+    const {target, schedule } = parseArguments(process.argv)
+    console.log(calculateExercises(schedule,target))
+}catch(error : unknown){
+    let errormessage = 'something bad happened'
+    if(error instanceof Error){
+        errormessage+= ' Error: ' +error.message
+    }
+    console.log(errormessage)
+}
