@@ -1,10 +1,24 @@
-import express from 'express'
-import patientService from '../service/patientService'
+import express from 'express';
+import patientService from '../service/patientService';
+import toNewPatientEntry from '../utils';
 
-const router = express.Router()
+const router = express.Router();
 
 router.get('/', (_req, res)=> {
-    res.send(patientService.getNonSensitivePatientData())
-})
+    res.send(patientService.getNonSensitivePatientData());
+});
 
-export default router
+router.post('/', (req, res) => {
+    try{
+        const newPatientEntry = toNewPatientEntry(req.body);
+        const addPatient = patientService.addPatient(newPatientEntry);
+        res.json(addPatient);
+    }catch(error: unknown) {
+        let errorMessage = 'something went wrong';
+        if(error instanceof Error){
+            errorMessage += ' error: '+error.message;
+        }
+        res.status(400).send(errorMessage);
+    }
+});
+export default router;
