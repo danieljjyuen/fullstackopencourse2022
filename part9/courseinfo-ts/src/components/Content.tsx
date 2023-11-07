@@ -1,8 +1,10 @@
-const Content = (props: {courseParts: {name:string, exerciseCount:number}[]}) : JSX.Element => {
+import { CoursePart } from "../types"
+import Part from './Part'
+const Content = (props: {courseParts: CoursePart[]}) : JSX.Element => {
     return (
         <div>
             {props.courseParts.map(course => {
-                return <p>{course.name} {course.exerciseCount}</p>
+                return <Part part={course} />
             })}
         </div>
     )
