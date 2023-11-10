@@ -21,4 +21,8 @@ router.post('/', (req, res) => {
         res.status(400).send(errorMessage);
     }
 });
+
+router.get('/:id', (_req, res) => {
+    res.send(patientService.getByIdPatientData(_req.params.id))
+})
 export default router;

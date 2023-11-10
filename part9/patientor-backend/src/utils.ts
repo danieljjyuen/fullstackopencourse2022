@@ -1,4 +1,4 @@
-import { Gender, OmitIdPatient } from "./types";
+import { Gender, OmitIdPatient, Entry } from "./types";
 
 const isString = (text:unknown):text is string => {
     return typeof text === 'string' || text instanceof String;
@@ -9,22 +9,42 @@ const toNewPatientEntry = (object: unknown): OmitIdPatient => {
         throw new Error('incorrect or missing data');
     }
 
-    if('name' in object && 'dateOfBirth' in object 
-        && 'ssn' in object && 'gender' in object
-        && 'occupation' in object){
+    if('name' in object 
+        && 'dateOfBirth' in object 
+        && 'ssn' in object 
+        && 'gender' in object
+        && 'occupation' in object
+        && 'entries' in object){
+
         const newEntry : OmitIdPatient = {
             name: parseName(object.name),
             dateOfBirth:parseDateOfBirth(object.dateOfBirth),
             ssn: parseSsn(object.ssn),
             gender: parseGender(object.gender),
-            occupation: parseOccupation(object.occupation)
+            occupation: parseOccupation(object.occupation),
+            entries:parseEntries(object.entries)
         };
         return newEntry;
     }
     throw new Error('incorrect data: missing fields');
 };
 
+const parseEntries = (entries: unknown):Entry[] => {
+    if(!Array.isArray(entries)){
+        throw new Error('not correct format')
+    }
+    entries.forEach(entry => {
+        if(isEntry(entry)){
+            throw new Error('incorrect or missing entry')
+        }
+    })
+    return entries as Entry[]
 
+}
+
+const isEntry = (entry:unknown): entry is Entry => {
+    return typeof entry ==='object' && entry!==null
+}
 const parseName = (name: unknown): string => {
     if(!name || !isString(name)){
         throw new Error('incorrect or missing name');
