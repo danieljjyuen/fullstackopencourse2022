@@ -1,10 +1,13 @@
 export interface FlightDiary {
     id: number;
-    date: string;
+    date: Date;
     weather: Weather;
     visibility: Visibility;
     comment: string;
 }
+
+export type NewFlightDiary = Omit<FlightDiary, 'id'>
+export type FlightDiaryNoComment = Omit<FlightDiary,'comment'>
 
 export enum Weather {
     Sunny = 'sunny',
