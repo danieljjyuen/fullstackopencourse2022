@@ -34,7 +34,7 @@ const parseEntries = (entries: unknown):Entry[] => {
         throw new Error('not correct format')
     }
     entries.forEach(entry => {
-        if(isEntry(entry)){
+        if(!isEntry(entry)){
             throw new Error('incorrect or missing entry')
         }
     })
@@ -43,7 +43,10 @@ const parseEntries = (entries: unknown):Entry[] => {
 }
 
 const isEntry = (entry:unknown): entry is Entry => {
-    return typeof entry ==='object' && entry!==null
+    return (typeof entry === 'object' && entry!==null       
+        && ('type' in entry) && (entry.type==='HealthCheck'
+            || entry.type==='OccupationalHealthcare'
+            || entry.type==='Hospital'))
 }
 const parseName = (name: unknown): string => {
     if(!name || !isString(name)){
