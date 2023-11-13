@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import { BrowserRouter as Router, Route, Link, Routes } from "react-router-dom";
 import { Button, Divider, Container, Typography } from '@mui/material';
-import ShowPatient  from './components/ShowPatient'
+import ShowPatient  from './components/SinglePatient/ShowPatient'
 import { apiBaseUrl } from "./constants";
 import { Patient } from "./types";
 import patientService from "./services/patients";

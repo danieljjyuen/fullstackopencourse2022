@@ -1,7 +1,8 @@
-import patientService from '../services/patients'
+import patientService from '../../services/patients'
 import { useMatch } from 'react-router-dom'
 import {useState, useEffect } from 'react'
-import { Patient } from '../types'
+import { Patient } from '../../types'
+import Entries from './Entries'
 
 const ShowPatient = () => {
     const match = useMatch('/patients/:id')
@@ -35,6 +36,7 @@ const ShowPatient = () => {
                     ssh: {patient.ssn}
                     <br />
                     occupation: {patient.occupation}
+                    <Entries patient={patient} />
                 </div>
             )
         }
