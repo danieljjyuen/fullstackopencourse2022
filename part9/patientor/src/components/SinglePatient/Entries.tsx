@@ -1,6 +1,13 @@
-import {Patient} from '../../../src/types'
+import {Patient, Diagnosis} from '../../../src/types'
+import {useState, useEffect } from 'react'
+import diagnosisService from '../../services/diagnosis'
 
 const Entries = ({patient}: {patient:Patient}) => {
+    const [diagnoses, setDiagnoses] = useState<Diagnosis[]>([])
+    useEffect(() => {
+        diagnosisService.getAll().then(data => setDiagnoses(data))
+    },[])
+    console.log(diagnoses)
     if(!patient.entries || patient.entries.length===0){
         return null
     }
@@ -14,7 +21,7 @@ const Entries = ({patient}: {patient:Patient}) => {
                 <br/>
                 {!entry.diagnosisCodes ? null :
                     entry.diagnosisCodes.map((code) => (
-                    <li key={code}>{code}</li>
+                    <li key={code}>{code} {diagnoses.find(diagnose => diagnose.code===code)?.name}</li>
                     ))
                 }
                 </div>
