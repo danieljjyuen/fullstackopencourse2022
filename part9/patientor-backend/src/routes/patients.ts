@@ -28,6 +28,7 @@ router.get('/:id', (_req, res) => {
 
 router.post('/:id/entries', (req, res)  => {
     const newEntry = toNewEntry(req.body)
+    console.log('backend ', newEntry)
     res.send(patientService.addEntry(req.params.id, newEntry))
 })
 export default router;

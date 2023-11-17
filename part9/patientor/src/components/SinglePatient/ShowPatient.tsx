@@ -1,15 +1,20 @@
 import patientService from '../../services/patients'
 import { useMatch } from 'react-router-dom'
 import {useState, useEffect } from 'react'
-import { Patient } from '../../types'
+import { Patient, Diagnose } from '../../types'
 import Entries from './Entries'
+import EntryForm from './EntryForm'
+import diagnosisService from '../../services/diagnosis'
 
 const ShowPatient = () => {
     const match = useMatch('/patients/:id')
     const id = match?.params.id
     const [patient,setPatient] = useState<Patient|null>(null)
 
+    const [diagnoses, setDiagnoses] = useState<Diagnose[]>([])
+
     useEffect(()=>{
+        diagnosisService.getAll().then(data => setDiagnoses(data))
         const findPatient = async () => {
             if(id!== undefined && id){
                 try{
@@ -36,7 +41,9 @@ const ShowPatient = () => {
                     ssh: {patient.ssn}
                     <br />
                     occupation: {patient.occupation}
-                    <Entries patient={patient} />
+                    <EntryForm patient={patient} setPatient={setPatient} diagnoses={diagnoses}/>
+                    <Entries patient={patient} diagnoses={diagnoses}/>
+                    
                 </div>
             )
         }

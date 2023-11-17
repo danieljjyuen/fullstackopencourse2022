@@ -1,4 +1,4 @@
-export interface Diagnosis {
+export interface Diagnose {
   code: string;
   name: string;
   latin?: string;
@@ -20,7 +20,7 @@ export interface BaseEntry {
   description:string
   date:string
   specialist:string
-  diagnosisCodes?:Array<Diagnosis['code']>
+  diagnosisCodes?:Array<Diagnose['code']>
 }
 
 export enum HealthCheckRating {
@@ -67,3 +67,8 @@ export interface Patient {
 }
 
 export type PatientFormValues = Omit<Patient, "id" | "entries">;
+
+type UnionOmit<T, K extends string|number|symbol>=T extends unknown 
+    ? Omit<T, K> : never
+
+export type OmitIdEntry = UnionOmit<Entry, 'id'>

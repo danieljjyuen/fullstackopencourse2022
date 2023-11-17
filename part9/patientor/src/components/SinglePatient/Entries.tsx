@@ -1,17 +1,12 @@
-import {Patient, Diagnosis} from '../../../src/types'
-import {useState, useEffect } from 'react'
-import diagnosisService from '../../services/diagnosis'
+import {Patient, Diagnose} from '../../../src/types'
 import HealthCheckEntry from './HealthCheckEntry'
 import HospitalEntry from './HospitalEntry'
 import OccupationalHealthcareEntry from './OccupationalHealthcareEntry'
 
 
-const Entries = ({patient}: {patient:Patient}) => {
-    const [diagnoses, setDiagnoses] = useState<Diagnosis[]>([])
-    useEffect(() => {
-        diagnosisService.getAll().then(data => setDiagnoses(data))
-    },[])
-    console.log(diagnoses)
+const Entries = ({patient, diagnoses}: {patient:Patient, diagnoses:Diagnose[]}) => {
+
+
     if(!patient.entries || patient.entries.length===0){
         return null
     }

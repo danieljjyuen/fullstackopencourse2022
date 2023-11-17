@@ -40,7 +40,7 @@ export const toNewEntry = (object: unknown): OmitIdEntry => {
             specialist:parseSpecialist(object.specialist)
         }
         if('diagnosisCodes' in object){
-            newBaseEntry.diagnosisCodes = parseDiagnosisCodes(object.diagnosisCodes)
+            newBaseEntry.diagnosisCodes = parseDiagnosisCodes(object)
         }
 
         if('type' in object){
@@ -141,7 +141,11 @@ const parseHealthCheckRating = (healthCheckRating:unknown): HealthCheckRating =>
 }
 
 const parseDiagnosisCodes = (object: unknown): Array<Diagnose['code']> => {
-    if(!object || typeof object!== 'object' || !('diagnosisCodes' in object)){
+    if (!object || typeof object !== 'object' || !('diagnosisCodes' in object)) {
+        console.log(!object)
+        console.log(typeof object !== 'object')
+
+        console.log('failed')
         return [] as Array<Diagnose['code']>
     }
     return object.diagnosisCodes as Array<Diagnose['code']>
